@@ -8,7 +8,7 @@ import {
   Titulo
 } from '../../components/Contato/styles'
 import { Container } from '../ListaDeContatos/styles'
-import Contato from '../../models/Contato'
+// import Contato from '../../models/Contato'
 import { cadastrar } from '../../store/reducers/contatos'
 
 const Formulario = () => {
@@ -20,16 +20,23 @@ const Formulario = () => {
   const [numero, setNumero] = useState('')
 
   const cadastrarContato = (evento: FormEvent) => {
+    alert('chamou')
     evento.preventDefault()
-    const contatoParaAdicionar = new Contato(titulo, email, numero, 9)
+    alert(JSON.stringify({ titulo, email, numero }))
 
-    dispatch(cadastrar(contatoParaAdicionar))
+    dispatch(
+      cadastrar({
+        titulo,
+        email,
+        numero
+      })
+    )
     navigate('/')
   }
   return (
     <Container>
       <h1>Adicionar Contato</h1>
-      <Card onSubmit={cadastrarContato}>
+      <Card>
         <Titulo
           value={titulo}
           onChange={(evento) => setTitulo(evento.target.value)}
@@ -45,7 +52,9 @@ const Formulario = () => {
           onChange={(evento) => setNumero(evento.target.value)}
           placeholder="Número de telefone"
         />
-        <BotaoSalvar type="submit">Cadastrar</BotaoSalvar>
+        <BotaoSalvar onClick={(e) => cadastrarContato(e)} type="submit">
+          Cadastrar
+        </BotaoSalvar>
         <BotaoExcluir onClick={() => navigate('/')}>Voltar</BotaoExcluir>
       </Card>
     </Container>
